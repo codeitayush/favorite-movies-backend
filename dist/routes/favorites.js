@@ -22,9 +22,15 @@ function asyncHandler(fn) {
     };
 }
 // GET /api/favorites - list all
-router.get('/', asyncHandler(async (_req, res) => {
-    const favorites = await prisma.favorite.findMany({ orderBy: { id: 'desc' } });
-    res.json(favorites);
+router.get('/', asyncHandler(async (req, res) => {
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const limit = Math.max(1, Math.min(100, Number(req.query.limit) || 10));
+    const skip = (page - 1) * limit;
+    const [favorites, total] = await Promise.all([
+        prisma.favorite.findMany({ orderBy: { id: 'desc' }, skip, take: limit }),
+        prisma.favorite.count(),
+    ]);
+    res.json({ data: favorites, page, limit, total });
 }));
 // GET /api/favorites/:id - get one
 router.get('/:id', asyncHandler(async (req, res) => {

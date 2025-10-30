@@ -18,6 +18,24 @@ app.use('/api/favorites', favorites_1.default);
 app.get('/health', (_req, res) => {
     res.json({ status: 'ok', service: 'favorite-movies-backend' });
 });
+// Friendly root route
+app.get('/', (_req, res) => {
+    res.json({
+        service: 'favorite-movies-backend',
+        status: 'ok',
+        message: 'Welcome to Favorite Movies & TV Shows API',
+        endpoints: {
+            health: '/health',
+            favorites: {
+                list: '/api/favorites?page=1&limit=10',
+                get: '/api/favorites/:id',
+                create: '/api/favorites',
+                update: '/api/favorites/:id',
+                delete: '/api/favorites/:id'
+            }
+        }
+    });
+});
 // Error handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err, _req, res, _next) => {

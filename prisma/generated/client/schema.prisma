@@ -1,0 +1,31 @@
+// This is your Prisma schema file for PostgreSQL
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enum for favorite type
+enum Type {
+  MOVIE
+  TV_SHOW
+}
+
+// Favorite model definition
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  title     String
+  type      Type
+  director  String
+  budget    String
+  location  String
+  duration  String
+  year      String
+  createdAt DateTime @default(now())
+}

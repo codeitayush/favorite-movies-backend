@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
-import { PrismaClient, Prisma } from '../generated/prisma/client';
+import { PrismaClient, Prisma } from '../../prisma/generated/client';
 
 const prisma = new PrismaClient();
 const router = Router();
